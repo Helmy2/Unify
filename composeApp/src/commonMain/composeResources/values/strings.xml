@@ -1,0 +1,48 @@
+<resources>
+    <string name="login">Log In</string>
+    <string name="register">Sign Up</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="login_to_your_account">Log in to your account</string>
+    <string name="create_account">Create Account</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="no_account">Don't have an account?</string>
+    <string name="logout">Log Out</string>
+
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="theme">Theme</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="system_default">System Default</string>
+    <string name="update_name">Update Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="show_password">Show Password</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="back_button">Back</string>
+    <string name="create">Create</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="code">Code</string>
+    <string name="description">Description</string>
+
+    <string name="error_invalid_email">Invalid email address</string>
+    <string name="error_invalid_password">Invalid password</string>
+    <string name="error_password_empty">Password is required</string>
+    <string name="error_password_weak">Password must be at least 8 characters and contain an uppercase letter and a special character.</string>
+    <string name="error_name_required">Name is required</string>
+
+    <string name="password_requirement_length">At least 8 characters</string>
+    <string name="password_requirement_uppercase">Contains an uppercase letter</string>
+    <string name="password_requirement_special">Contains a special character</string>
+    <string name="requirement_met">Requirement met</string>
+    <string name="requirement_not_met">Requirement not met</string>
+
+    <string name="create_account_success">Check your email to confirm your account</string>
+    <string name="logged_out_success">Logged out successfully</string>
+
+</resources>
