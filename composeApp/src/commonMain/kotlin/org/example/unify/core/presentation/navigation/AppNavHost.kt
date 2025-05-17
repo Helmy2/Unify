@@ -11,6 +11,7 @@ import org.example.unify.core.domain.navigation.Destination
 import org.example.unify.core.domain.navigation.Navigator
 import org.example.unify.features.user.presentation.login.LoginRoute
 import org.example.unify.features.user.presentation.register.RegisterRoute
+import org.example.unify.features.user.presentation.setting.SettingsRoute
 import org.koin.compose.koinInject
 
 @Composable
@@ -29,6 +30,12 @@ fun AppNavHost(
         ) {
             composable<Destination.Main.Dashboard> {
                 Text("Dashboard")
+            }
+            composable<Destination.Main.Inventory> {
+                Text("Inventory")
+            }
+            composable<Destination.Main.Settings> {
+                SettingsRoute()
             }
         }
 
