@@ -45,4 +45,8 @@
     <string name="create_account_success">Check your email to confirm your account</string>
     <string name="logged_out_success">Logged out successfully</string>
 
+    <string name="dashboard">Dashboard</string>
+    <string name="inventory">Inventory</string>
+    <string name="settings">Settings</string>
+
 </resources>
