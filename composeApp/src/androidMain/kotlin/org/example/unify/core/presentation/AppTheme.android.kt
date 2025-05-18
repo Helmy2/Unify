@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowInsetsControllerCompat
 
 @Composable
-actual fun SystemAppearance(isDark: Boolean) {
+actual fun SystemBarAppearance(isDark: Boolean) {
     val view = LocalView.current
     LaunchedEffect(isDark) {
         val window = (view.context as Activity).window

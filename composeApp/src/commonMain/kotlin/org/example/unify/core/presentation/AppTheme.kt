@@ -11,11 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.example.unify.core.domain.entity.Language
 import org.example.unify.core.domain.entity.ThemeMode
+import org.example.unify.core.util.LocalAppLocale
 import org.example.unify.features.user.domain.usecase.GetLanguageUseCase
 import org.example.unify.features.user.domain.usecase.GetThemeModeUseCase
 import org.koin.compose.koinInject
@@ -51,18 +51,11 @@ fun AppTheme(
         }
     }
 
-//    when (language) {
-//        Language.English -> Locale.setDefault(Locale.forLanguageTag("en"))
-//        Language.Arabic -> Locale.setDefault(Locale.forLanguageTag("ar"))
-//    }
-
-    SystemAppearance(!systemIsDark)
+    SystemBarAppearance(!systemIsDark)
 
     CompositionLocalProvider(
-        LocalLayoutDirection provides when (language) {
-            Language.English -> LayoutDirection.Ltr
-            Language.Arabic -> LayoutDirection.Rtl
-        }
+        LocalLayoutDirection provides language.layoutDirection,
+        LocalAppLocale provides language.code,
     ) {
         MaterialTheme(
             colorScheme = getDynamicColorScheme(
@@ -84,5 +77,5 @@ expect fun getDynamicColorScheme(
 ): ColorScheme
 
 @Composable
-expect fun SystemAppearance(isDark: Boolean)
+expect fun SystemBarAppearance(isDark: Boolean)
 
