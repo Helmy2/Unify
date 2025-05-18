@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,6 +18,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import org.example.unify.core.App
 import org.example.unify.core.domain.navigation.Destination
+import org.example.unify.core.presentation.AppTheme
 import org.example.unify.di.initKoin
 import org.example.unify.features.user.domain.usecase.IsUserLongedInUseCase
 import org.jetbrains.compose.resources.stringResource
@@ -45,7 +45,7 @@ fun main() {
                         it.map { flag -> if (flag) Destination.Main else Destination.Auth }
                 }
             }
-            MaterialTheme {
+            AppTheme {
                 AnimatedContent(entryDestination != null) {
                     if (it) {
                         entryDestination!!.onSuccess { destination ->

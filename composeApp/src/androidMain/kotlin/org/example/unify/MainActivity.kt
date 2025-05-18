@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -18,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.example.unify.core.App
 import org.example.unify.core.domain.navigation.Destination
+import org.example.unify.core.presentation.AppTheme
 import org.example.unify.features.user.domain.usecase.IsUserLongedInUseCase
 import org.jetbrains.compose.resources.stringResource
 import org.koin.android.ext.android.inject
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val state by startDestination.collectAsStateWithLifecycle()
             state?.let {
-                MaterialTheme {
+                AppTheme {
                     it.onSuccess {
                         App(it)
                     }.onFailure {
