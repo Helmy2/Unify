@@ -137,6 +137,17 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "org.example.unify"
             packageVersion = "1.0.0"
+
+            linux {
+                iconFile.set(project.file("desktopAppIcons/AppIcon.png"))
+                modules("jdk.security.auth")
+            }
+            windows {
+                iconFile.set(project.file("desktopAppIcons/AppIcon.ico"))
+            }
+            macOS {
+                iconFile.set(project.file("desktopAppIcons/AppIcon.icns"))
+            }
         }
     }
 }
@@ -150,8 +161,7 @@ buildkonfig {
 
     defaultConfigs {
         val localProperties = gradleLocalProperties(
-            projectRootDir = rootDir,
-            providers = providers
+            projectRootDir = rootDir, providers = providers
         )
         val supabaseKey = localProperties.getProperty("supabaseKey")
         val supabaseUrl = localProperties.getProperty("supabaseUrl")
