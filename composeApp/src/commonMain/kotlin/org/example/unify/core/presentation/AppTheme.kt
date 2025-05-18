@@ -19,7 +19,6 @@ import org.example.unify.core.domain.entity.ThemeMode
 import org.example.unify.features.user.domain.usecase.GetLanguageUseCase
 import org.example.unify.features.user.domain.usecase.GetThemeModeUseCase
 import org.koin.compose.koinInject
-import java.util.Locale
 
 val LightColorScheme: ColorScheme = lightColorScheme()
 val DarkColorScheme: ColorScheme = darkColorScheme()
@@ -51,10 +50,11 @@ fun AppTheme(
             ThemeMode.System -> isDark
         }
     }
-    when (language) {
-        Language.English -> Locale.setDefault(Locale.forLanguageTag("en"))
-        Language.Arabic -> Locale.setDefault(Locale.forLanguageTag("ar"))
-    }
+
+//    when (language) {
+//        Language.English -> Locale.setDefault(Locale.forLanguageTag("en"))
+//        Language.Arabic -> Locale.setDefault(Locale.forLanguageTag("ar"))
+//    }
 
     SystemAppearance(!systemIsDark)
 
