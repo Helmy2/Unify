@@ -2,24 +2,27 @@ package org.example.unify.features.user.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import org.example.unify.core.domain.navigation.Navigator
+import org.example.unify.core.domain.snackbar.SnackbarManager
+import org.example.unify.features.user.domain.entity.PasswordStrength
+import org.example.unify.features.user.domain.entity.Requirement
+import org.example.unify.features.user.domain.usecase.RegisterUseCase
+import org.example.unify.features.user.domain.util.calculatePasswordStrength
+import org.example.unify.features.user.domain.util.isValidEmail
+import org.jetbrains.compose.resources.getString
 import unify.composeapp.generated.resources.Res
 import unify.composeapp.generated.resources.create_account_success
 import unify.composeapp.generated.resources.error_invalid_email
 import unify.composeapp.generated.resources.error_name_required
 import unify.composeapp.generated.resources.error_password_empty
 import unify.composeapp.generated.resources.error_password_weak
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import org.example.unify.features.user.domain.entity.PasswordStrength
-import org.example.unify.core.domain.navigation.Navigator
-import org.example.unify.core.domain.snackbar.SnackbarManager
-import org.example.unify.features.user.domain.usecase.RegisterUseCase
-import org.example.unify.features.user.domain.util.calculatePasswordRequirements
-import org.example.unify.features.user.domain.util.calculatePasswordStrength
-import org.example.unify.features.user.domain.util.isValidEmail
-import org.jetbrains.compose.resources.getString
+import unify.composeapp.generated.resources.password_requirement_length
+import unify.composeapp.generated.resources.password_requirement_special
+import unify.composeapp.generated.resources.password_requirement_uppercase
 
 class RegisterViewModel(
     private val registerUseCase: RegisterUseCase,
@@ -46,16 +49,36 @@ class RegisterViewModel(
     }
 
     private fun updatePassword(value: String) {
-        val strength = calculatePasswordStrength(value)
-        val requirements = calculatePasswordRequirements(value)
+        viewModelScope.launch {
+            val strength = calculatePasswordStrength(value)
+            val requirements = calculatePasswordRequirements(value)
 
-        _state.update {
-            it.copy(
-                passwordStrength = strength,
-                passwordRequirements = requirements,
-                password = value, passwordError = null
-            )
+            _state.update {
+                it.copy(
+                    passwordStrength = strength,
+                    passwordRequirements = requirements,
+                    password = value,
+                    passwordError = null
+                )
+            }
         }
+    }
+
+    private suspend fun calculatePasswordRequirements(value: String): List<Requirement> {
+        return listOf(
+            Requirement(
+                getString(Res.string.password_requirement_length),
+                value.length >= 8,
+            ),
+            Requirement(
+                getString(Res.string.password_requirement_special),
+                value.any { !it.isLetterOrDigit() },
+            ),
+            Requirement(
+                getString(Res.string.password_requirement_uppercase),
+                value.any { it.isUpperCase() },
+            ),
+        )
     }
 
     private fun updateName(value: String) {

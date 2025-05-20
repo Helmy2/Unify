@@ -9,4 +9,9 @@ interface SettingsManager {
     suspend fun changeTheme(mode: ThemeMode)
     suspend fun changeLanguage(language: Language)
     fun getLanguage(): Flow<Language>
+
+    companion object {
+        const val THEME_KEY = "themeKey"
+        const val LANGUAGE_KEY = "languageKey"
+    }
 }

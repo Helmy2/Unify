@@ -158,14 +158,14 @@ private fun PasswordRequirementsChecklist(requirements: List<Requirement>) {
     Column(modifier = Modifier.fillMaxWidth()) {
         requirements.forEach { requirement ->
             RequirementItem(
-                text = requirement.text, isMet = requirement.isMet
+                text = requirement.message, isMet = requirement.isMet
             )
         }
     }
 }
 
 @Composable
-private fun RequirementItem(text: StringResource, isMet: Boolean) {
+private fun RequirementItem(text: String, isMet: Boolean) {
     val icon = if (isMet) Icons.Default.CheckCircle else Icons.Default.Info
     val color =
         if (isMet) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
@@ -184,7 +184,7 @@ private fun RequirementItem(text: StringResource, isMet: Boolean) {
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = stringResource(text), style = MaterialTheme.typography.labelSmall, color = color
+            text = text, style = MaterialTheme.typography.labelSmall, color = color
         )
     }
 }
