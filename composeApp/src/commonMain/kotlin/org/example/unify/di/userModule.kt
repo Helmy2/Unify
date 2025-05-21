@@ -13,12 +13,12 @@ import org.example.unify.features.user.domain.usecase.ChangeLanguageUseCase
 import org.example.unify.features.user.domain.usecase.CurrentUserFlowUseCase
 import org.example.unify.features.user.domain.usecase.GetDisplayNameUseCase
 import org.example.unify.features.user.domain.usecase.GetLanguageUseCase
-import org.example.unify.features.user.domain.usecase.IsUserLongedInFlowUseCase
 import org.example.unify.features.user.domain.usecase.IsUserLongedInUseCase
-import org.example.unify.features.user.domain.usecase.LoginUseCase
 import org.example.unify.features.user.domain.usecase.LogoutUseCase
 import org.example.unify.features.user.domain.usecase.RegisterUseCase
 import org.example.unify.features.user.domain.usecase.UpdateNameUseCase
+import org.example.unify.features.user.domain.usecase.login.IsUserLongedInFlowUseCase
+import org.example.unify.features.user.domain.usecase.login.LoginUseCase
 import org.example.unify.features.user.presentation.login.LoginViewModel
 import org.example.unify.features.user.presentation.register.RegisterViewModel
 import org.example.unify.features.user.presentation.setting.SettingsViewModel
@@ -29,8 +29,7 @@ import org.koin.dsl.module
 val userModule = module {
     single<UserRepo> {
         val adminClient = createSupabaseClient(
-            supabaseKey = BuildKonfig.supabaseKey,
-            supabaseUrl = BuildKonfig.supabaseUrl
+            supabaseKey = BuildKonfig.supabaseKey, supabaseUrl = BuildKonfig.supabaseUrl
         ) {
             install(Auth) {
                 minimalSettings()
@@ -46,9 +45,7 @@ val userModule = module {
     }
 
     factory { IsUserLongedInUseCase(get()) }
-    factory { LoginUseCase(get()) }
     factory { RegisterUseCase(get()) }
-    factory { IsUserLongedInFlowUseCase(get()) }
     factory { LogoutUseCase(get()) }
     factory { UpdateNameUseCase(get()) }
     factory { CurrentUserFlowUseCase(get()) }
@@ -56,7 +53,14 @@ val userModule = module {
     factory { GetLanguageUseCase(get()) }
     factory { GetDisplayNameUseCase(get()) }
 
-    viewModel { LoginViewModel(get(), get(), get(), get()) }
+    viewModel {
+        LoginViewModel(
+            { email, password -> LoginUseCase(get()).invoke(email, password) },
+            { IsUserLongedInFlowUseCase(get()).invoke() },
+            get(),
+            get(),
+        )
+    }
     viewModel { RegisterViewModel(get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 

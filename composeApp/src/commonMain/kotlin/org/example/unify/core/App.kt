@@ -54,7 +54,7 @@ fun MainScaffold(
 ) {
     val snackbarManager = koinInject<SnackbarManager>()
     val navigator = koinInject<Navigator>()
-    val navBackStackEntry by navigator.navController.currentBackStackEntryAsState()
+    val navBackStackEntry by navigator.getCurrentNavHost()!!.currentBackStackEntryAsState()
 
     val connectivity: Connectivity = koinInject()
     val state by connectivity.statusUpdates.collectAsStateWithLifecycle(
@@ -77,7 +77,7 @@ fun MainScaffold(
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarManager.snackbarHostState) },
+        snackbarHost = { SnackbarHost(snackbarManager.getCurrentSnackbarHostState()!!) },
     ) {
         AnimatedContent(
             targetState = TopLevelRoutes.routes.any {
@@ -89,7 +89,7 @@ fun MainScaffold(
                     navigationSuiteItems = {
                         mainNavigationItems(
                             onDestinationSelected = {
-                                navigator.navController.apply {
+                                navigator.getCurrentNavHost()!!.apply {
                                     navigate(it) {
                                         popUpTo(graph.findStartDestination().id) {
                                             saveState = true

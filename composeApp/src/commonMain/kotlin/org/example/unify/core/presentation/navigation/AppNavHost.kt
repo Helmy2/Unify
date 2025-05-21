@@ -21,7 +21,7 @@ fun AppNavHost(
 ) {
     val navigator = koinInject<Navigator>()
     NavHost(
-        navController = navigator.navController,
+        navController = navigator.getCurrentNavHost()!!,
         startDestination = startDestination,
         modifier = modifier.systemBarsPadding(),
     ) {

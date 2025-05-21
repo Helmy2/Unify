@@ -2,6 +2,7 @@ package org.example.unify.features.user.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,12 +14,10 @@ import kotlinx.coroutines.launch
 import org.example.unify.core.domain.navigation.Destination
 import org.example.unify.core.domain.navigation.Navigator
 import org.example.unify.core.domain.snackbar.SnackbarManager
-import org.example.unify.features.user.domain.usecase.IsUserLongedInFlowUseCase
-import org.example.unify.features.user.domain.usecase.LoginUseCase
 
 class LoginViewModel(
-    private val loginUseCase: LoginUseCase,
-    private val isUserLongedInFlowUseCase: IsUserLongedInFlowUseCase,
+    private val loginUseCase: suspend (email: String, password: String) -> Result<Unit>,
+    private val isUserLongedInFlowUseCase:  () -> Flow<Result<Boolean>>,
     private val snackbarManager: SnackbarManager,
     private val navigator: Navigator
 ) : ViewModel() {

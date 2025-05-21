@@ -5,9 +5,7 @@ import org.example.unify.core.domain.navigation.Destination
 import org.example.unify.core.domain.navigation.Navigator
 
 
-class NavigatorImpl(
-    override val navController: NavHostController
-) : Navigator {
+class NavigatorImpl(val navController: NavHostController) : Navigator {
     override fun navigate(route: Destination) {
         navController.navigate(route)
     }
@@ -20,5 +18,9 @@ class NavigatorImpl(
         navController.navigate(route) {
             popUpTo(0)
         }
+    }
+
+    override fun getCurrentNavHost(): NavHostController? {
+        return navController
     }
 }

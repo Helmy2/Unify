@@ -1,4 +1,4 @@
-package org.example.unify.features.user.domain.usecase
+package org.example.unify.features.user.domain.usecase.login
 
 import org.example.unify.features.user.domain.repository.UserRepo
 

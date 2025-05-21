@@ -5,7 +5,7 @@ import org.example.unify.core.domain.snackbar.SnackbarManager
 
 
 class SnackbarManagerImpl(
-    override val snackbarHostState: SnackbarHostState
+    val snackbarHostState: SnackbarHostState
 ) : SnackbarManager {
 
     override suspend fun showErrorSnackbar(value: String, exception: Throwable) {
@@ -21,5 +21,9 @@ class SnackbarManagerImpl(
 
     override suspend fun dismissSnackbar() {
         snackbarHostState.currentSnackbarData?.dismiss()
+    }
+
+    override fun getCurrentSnackbarHostState(): SnackbarHostState? {
+        return snackbarHostState
     }
 }
