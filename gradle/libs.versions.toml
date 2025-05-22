@@ -20,11 +20,10 @@ adaptive = "1.1.0"
 material3WindowSizeClass = "1.7.3"
 hotReload = "1.0.0-alpha09"
 ksp = "2.1.20-1.0.31"
-datastore = "1.1.6"
+datastore = "1.1.7"
 androidx-room = "2.7.1"
 sqlite = "2.5.1"
 napier = "2.7.1"
-assertk = "0.28.1"
 turbine = "1.2.0"
 
 [libraries]
@@ -74,7 +73,6 @@ sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sql
 
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 
-assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "assertk" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
