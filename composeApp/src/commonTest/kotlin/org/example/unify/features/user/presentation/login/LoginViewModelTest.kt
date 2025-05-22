@@ -3,12 +3,6 @@
 package org.example.unify.features.user.presentation.login
 
 import app.cash.turbine.test
-import assertk.assertThat
-import assertk.assertions.isEmpty
-import assertk.assertions.isEqualTo
-import assertk.assertions.isFalse
-import assertk.assertions.isNull
-import assertk.assertions.isTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +18,10 @@ import org.example.unify.core.fake.FakeSnackbarManager
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 
 class LoginViewModelTest {
@@ -87,12 +85,12 @@ class LoginViewModelTest {
     fun `initial state is correct`() = runTest {
         viewModel.state.test {
             val initialState = awaitItem() // Get the initial state
-            assertThat(initialState.email).isEqualTo("")
-            assertThat(initialState.emailError).isNull()
-            assertThat(initialState.password).isEqualTo("")
-            assertThat(initialState.passwordError).isNull()
-            assertThat(initialState.isPasswordVisible).isFalse()
-            assertThat(initialState.loading).isFalse()
+            assertEquals("", initialState.email)
+            assertNull(initialState.emailError)
+            assertEquals("", initialState.password)
+            assertNull(initialState.passwordError)
+            assertFalse(initialState.isPasswordVisible)
+            assertFalse(initialState.loading)
         }
     }
 
@@ -102,11 +100,11 @@ class LoginViewModelTest {
             val testEmail = "test@example.com"
 
             viewModel.state.test {
-                assertThat(awaitItem().email).isEqualTo("")
+                assertEquals("", awaitItem().email)
 
                 viewModel.handleEvent(LoginEvent.EmailChanged(testEmail))
 
-                assertThat(awaitItem().email).isEqualTo(testEmail)
+                assertEquals(testEmail, awaitItem().email)
             }
         }
 
@@ -116,11 +114,11 @@ class LoginViewModelTest {
             val testPassword = "password123"
 
             viewModel.state.test {
-                assertThat(awaitItem().password).isEqualTo("")
+                assertEquals("", awaitItem().password)
 
                 viewModel.handleEvent(LoginEvent.PasswordChanged(testPassword))
 
-                assertThat(awaitItem().password).isEqualTo(testPassword)
+                assertEquals(testPassword, awaitItem().password)
             }
         }
 
@@ -135,21 +133,15 @@ class LoginViewModelTest {
                 viewModel.handleEvent(LoginEvent.EmailChanged(email))
                 viewModel.handleEvent(LoginEvent.PasswordChanged(password))
 
-                assertThat(awaitItem().loading, "Loading before login attempt").isFalse()
+                assertFalse(awaitItem().loading, "Loading before login attempt")
                 viewModel.handleEvent(LoginEvent.Login)
-                assertThat(awaitItem().loading, "Loading after login attempt").isFalse()
+                assertFalse(awaitItem().loading, "Loading after login attempt")
 
-                assertThat(loginLambdaCallCount, "Login lambda call count").isEqualTo(1)
+                assertEquals(1, loginLambdaCallCount, "Login lambda call count")
 
-                assertThat(
-                    navigator.lastDestination(),
-                    "Navigation after successful login. Navigations: ${navigator.navigatedToDestinations}"
-                ).isEqualTo(Destination.Main)
+                assertEquals(Destination.Main, navigator.lastDestination(), "Navigation after successful login. Navigations: ${navigator.navigatedToDestinations}")
 
-                assertThat(
-                    snackbarManager.shownErrorSnackbarList,
-                    "Error snackbar list on success"
-                ).isEmpty()
+                assertTrue(snackbarManager.shownErrorSnackbarList.isEmpty(), "Error snackbar list on success")
             }
         }
 
@@ -169,45 +161,30 @@ class LoginViewModelTest {
             viewModel.handleEvent(LoginEvent.Login)
             advanceUntilIdle()
 
-            assertThat(viewModel.state.value.loading, "Loading after failed login").isFalse()
-            assertThat(navigator.navigatedToDestinations, "Navigations on failure").isEmpty()
+            assertFalse(viewModel.state.value.loading, "Loading after failed login")
+            assertTrue(navigator.navigatedToDestinations.isEmpty(), "Navigations on failure")
 
-            assertThat(
-                snackbarManager.shownErrorSnackbarList.size,
-                "Snackbar count on failure"
-            ).isEqualTo(1)
-            assertThat(
-                snackbarManager.shownErrorSnackbarList.first().message,
-                "Snackbar message on failure"
-            ).isEqualTo(errorMessage)
-            assertThat(loginLambdaCallCount, "Login lambda call count on failure").isEqualTo(1)
+            assertEquals(1, snackbarManager.shownErrorSnackbarList.size, "Snackbar count on failure")
+            assertEquals(errorMessage, snackbarManager.shownErrorSnackbarList.first().message, "Snackbar message on failure")
+            assertEquals(1, loginLambdaCallCount, "Login lambda call count on failure")
         }
 
     @Test
     fun `NavigateToRegister event calls navigator`() = runTest {
         viewModel.handleEvent(LoginEvent.NavigateToRegister)
 
-        assertThat(navigator.lastDestination()).isEqualTo(Destination.Auth.Register)
+        assertEquals(Destination.Auth.Register, navigator.lastDestination())
     }
 
     @Test
     fun `TogglePasswordVisibility event updates isPasswordVisible state`() =
         runTest {
-
             viewModel.state.test {
-                assertThat(awaitItem().isPasswordVisible, "Initial password visibility").isFalse()
-
+                assertFalse(awaitItem().isPasswordVisible, "Initial password visibility")
                 viewModel.handleEvent(LoginEvent.TogglePasswordVisibility)
-                assertThat(
-                    awaitItem().isPasswordVisible,
-                    "Password visibility after first toggle"
-                ).isTrue()
-
+                assertTrue(awaitItem().isPasswordVisible, "Password visibility after first toggle")
                 viewModel.handleEvent(LoginEvent.TogglePasswordVisibility)
-                assertThat(
-                    awaitItem().isPasswordVisible,
-                    "Password visibility after second toggle"
-                ).isFalse()
+                assertFalse(awaitItem().isPasswordVisible, "Password visibility after second toggle")
             }
         }
 }
